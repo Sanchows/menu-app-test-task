@@ -8,8 +8,9 @@ def transform(data):
     result = []
 
     for raw_item in data:
-        if temp.get(raw_item['name']):
+        if temp.get(raw_item["name"]):
             continue
+
         item = {
             "name": raw_item["name"],
             "parent__name": raw_item["parent__name"],
