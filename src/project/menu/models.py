@@ -3,7 +3,7 @@ from django.db import models
 
 class Menu(models.Model):
     """
-    A root for items
+    The root for items
     """
 
     name = models.CharField(max_length=100)
@@ -12,7 +12,7 @@ class Menu(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = "menus"
+        verbose_name_plural = "menu"
 
 
 class Item(models.Model):
@@ -31,12 +31,17 @@ class Item(models.Model):
     # need to add a validator for the root: the root can't have a parent.
 
     parent = models.ForeignKey(
-        "self", on_delete=models.CASCADE, blank=True, null=True
+        "self",
+        on_delete=models.CASCADE,
+        related_name="childrens",
+        blank=True,
+        null=True,
     )
 
     def save(self, *args, **kwargs):
         if not hasattr(self, "menu"):
             self.menu = self.parent.menu
+
         super(Item, self).save(*args, **kwargs)
 
     def __str__(self):

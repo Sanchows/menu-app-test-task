@@ -6,8 +6,8 @@ from config import settings
 from menu import urls as menu_urls
 
 urlpatterns = [
-    path("", include(menu_urls)),
     path("admin/", admin.site.urls),
+    path("", include(menu_urls)),
 ]
 
 # for access to static files of admin panels in a docker container
