@@ -17,9 +17,10 @@ def draw_menu(name: str):
             "parent__name",
             "children__name",
             "children",
+            "level"
         )
         .filter(menu__name=name)
-        .order_by("children")
+        .order_by("level")
     )
 
     menu = utils.transform(menu)
