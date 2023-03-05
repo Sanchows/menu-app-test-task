@@ -1,3 +1,10 @@
 <ul>
-    <li> {{ menu }} </li>
+{% for item in menu %}
+    <li>{{ item.name }}
+        {{ select_item }}
+        {% if item.childrens %}
+            {% include "menu/menu.html" with menu=item.childrens %}
+        {% endif %}
+    </li>
+{% endfor %}
 </ul>

@@ -1,5 +1,4 @@
 from django import template
-from django.db.models import Count
 
 from menu import utils
 from menu.models import Item
@@ -10,20 +9,19 @@ register = template.Library()
 @register.inclusion_tag("menu/menu.html")
 def draw_menu(name: str):
     menu = (
-        Item.objects.select_related("parent", "childrens")
+        Item.objects.select_related("parent", "children")
         .values(
             "id",
             "name",
-            "parent__id",
+            "parent",
             "parent__name",
-            "childrens__name",
+            "children__name",
+            "children",
         )
-        .annotate(childrens_count=Count("childrens"))
         .filter(menu__name=name)
+        .order_by("children")
     )
 
-    menu = utils.transform(
-        sorted(menu, key=lambda x: x["childrens_count"], reverse=True)
-    )
+    menu = utils.transform(menu)
 
     return {"menu": menu}
