@@ -28,7 +28,6 @@ class Item(models.Model):
         null=False,
         blank=True,
     )
-    # need to add a validator for the root: the root can't have a parent.
 
     parent = models.ForeignKey(
         "self",
@@ -38,9 +37,16 @@ class Item(models.Model):
         null=True,
     )
 
+    level = models.PositiveSmallIntegerField()
+
     def save(self, *args, **kwargs):
         if not hasattr(self, "menu"):
             self.menu = self.parent.menu
+
+        if not self.parent:
+            self.level = 0
+        else:
+            self.level = self.parent.level + 1
 
         super(Item, self).save(*args, **kwargs)
 
