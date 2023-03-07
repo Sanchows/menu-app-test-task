@@ -3,8 +3,6 @@ from django import template
 from menu import utils
 from menu.models import Item
 
-from pprint import pprint
-
 
 register = template.Library()
 
