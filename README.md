@@ -22,7 +22,7 @@
 Задание выложить на гитхаб.
 
 ### TODO
-- Implement a expanding/collapsing items by selected item
+- Implement an expanding/collapsing items by selected item
 
 
 ### Starting the project
