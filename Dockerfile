@@ -17,4 +17,4 @@ COPY ./entrypoint-web.sh .
 
 RUN chmod +x entrypoint-web.sh
 
-ENTRYPOINT ["./entrypoint-web.sh"]
+CMD ./entrypoint-web.sh

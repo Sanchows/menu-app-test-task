@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Menu(models.Model):
@@ -32,12 +33,14 @@ class Item(models.Model):
     parent = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,
-        related_name="children",
         blank=True,
         null=True,
     )
 
     level = models.PositiveSmallIntegerField()
+
+    # def get_absolute_url(self):
+    #     return reverse('menu', kwargs={'pk': self.pk})
 
     def save(self, *args, **kwargs):
         if not hasattr(self, "menu"):

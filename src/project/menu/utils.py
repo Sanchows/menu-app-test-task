@@ -1,31 +1,42 @@
-def transform(data):
+from pprint import pprint
+
+
+def transform(data: tuple[dict]) -> list[dict]:
     """
-    transform values_list of Items into a dict with children field
-    for each item
+    Из отсортированной (по полю level) последовательности словарей строит
+    вложенную структуру в зависимости от предков
     """
 
     temp = {}
     result = []
 
+    # id элементов меню, которые повторяются при выборке из бд из-за FULL JOIN.
+    # TODO: возможно не нужно хранить в каждом item список id детей
+    ids_of_temps = set()
+
     for raw_item in data:
-        if temp.get(raw_item["name"]):
+        if temp.get(raw_item["id"]):
+            ids_of_temps.add(raw_item["id"])
             continue
 
         item = {
-            "name": raw_item["name"],
-            "parent__name": raw_item["parent__name"],
-            "parent": raw_item["parent"],
-            "children__name": raw_item["children__name"],
-            "children": raw_item["children"],
-            "id": raw_item["id"],
-            "childrens": [],
+            **raw_item,
+            "expand": False,
+            "childrens": {"ids": [], "items": []},
         }
 
-        temp[item["name"]] = item
-
-        if not item["parent__name"]:
+        temp[item["id"]] = item
+        if not item["parent"]:
             result.append(item)
         else:
-            temp[item["parent__name"]]["childrens"].append(item)
+            temp[item["parent"]]["childrens"]["ids"].append(item["id"])
+
+            for children_id in ids_of_temps:
+                if children_id == item["id"]:
+                    ids_of_temps.remove(children_id)
+                    temp[item["parent"]]["childrens"]["ids"].append(
+                        children_id
+                    )
+            temp[item["parent"]]["childrens"]["items"].append(item)
 
     return result
