@@ -21,6 +21,10 @@
 
 Задание выложить на гитхаб.
 
+### TODO
+- Implement a expanding/collapsing items by selected item
+
+
 ### Starting the project
 1. Clone it
    `https://github.com/Sanchows/menu-app-test-task.git`
