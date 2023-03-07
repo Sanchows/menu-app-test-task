@@ -1,6 +1,3 @@
-from pprint import pprint
-
-
 def transform(data: tuple[dict]) -> list[dict]:
     """
     Из отсортированной (по полю level) последовательности словарей строит
