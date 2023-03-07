@@ -1,8 +1,9 @@
 <ul>
 {% for item in menu %}
-    <li><a href="#{{ item.name }}">{{ item.id }}  {{ item.name }}</a>
+    <!-- <li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a> -->
+    <li><a href="#{{ item.name }}">{{ item.name }}</a>
         {{ select_item }}
-        {% if item.childrens %}
+        {% if item.childrens.items %}
             {% include "menu/menu.html" with menu=item.childrens.items %}
         {% endif %}
     </li>
